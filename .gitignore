@@ -1,0 +1,5 @@
+application/templates/*
+config/config.php
+.env
+vendor/
+application/providers/cache/
