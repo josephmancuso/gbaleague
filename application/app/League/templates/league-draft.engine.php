@@ -14,9 +14,17 @@
         @endif
         </h1>
         @if ($league->status || $isHost)
+        @declare $teaminfo = $teams->find("league = '$league->id' AND owner='$league->current' ")
         <h2 class="text-center">Currently Drafting: 
 
-            {{ $league->current()->username }}
+            <div>
+            
+            </div>
+            
+            <div class="padding-sm">
+            {{ $league->current()->username }}. Owner of the {{ $teaminfo->name }} who have {{ $teaminfo->points }} points left
+            </div>
+
 
             @unless ($league->current()->username)
                 Nobody

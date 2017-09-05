@@ -4,6 +4,8 @@ use Mira\Route;
 use Mira\Render\Render;
 
 use App\League\Models\Teams;
+use App\League\Models\DraftedPokemon;
+use App\League\Models\Leagues;
 
 use Middleware\Upload;
 
@@ -35,5 +37,34 @@ Route::post('team/create/', function() use ($currentUser) {
 
     Render::view('Teams.create');
 });
+
+Route::post('team/remove/{draftedPokemonId}/{leagueId}/', function($draftPokemonId, $leagueId) use ($currentUser) {
+
+    $league = (new Leagues)->find($leagueId);
+
+    if ($currentUser->id == $league->owner) {
+        (new DraftedPokemon)->delete($draftPokemonId);
+    }
+
+    Render::redirect("/league/$league->slug/teams/");
+});
+
+Route::post('team/points/{teamId}/{leagueId}/', function($teamId, $leagueId) use ($currentUser) {
+
+    $league = (new Leagues)->find($leagueId);
+
+    if ($currentUser->id == $league->owner && $_POST['points']) {
+
+        $team = (new Teams)->find($teamId);
+
+        $team->points += $_POST['points'];
+
+        $team->save();
+    }
+
+    Render::redirect("/league/$league->slug/teams/");
+});
+
+
 
 
