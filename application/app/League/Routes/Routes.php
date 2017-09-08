@@ -14,6 +14,7 @@ use App\League\Models\TradingOffers;
 use App\League\Models\Pull;
 
 use Middleware\Authentication;
+use Middleware\Slack;
 
 // Routes Here
 
@@ -124,6 +125,8 @@ Route::get('league/{slug}/draft/', function($slug) use ($currentUser) {
     $draftedPokemon = (new DraftedPokemon)->filter("league = '$league->id'");
 
     $usersTeam = (new Teams)->find("league = '$league->id' AND owner = '$currentUser->id' ");
+
+    $draftersTeam = (new Teams)->find("league = '$league->id' AND owner = '$league->current' ");
     
     $draftedPokemon = (new DraftedPokemon)->filter("league = '$league->id' AND queue IS NULL ");
 
@@ -143,7 +146,6 @@ Route::get('league/{slug}/draft/', function($slug) use ($currentUser) {
         $isHost = true;
     }
 
-
     Render::view('League.league-draft', [
         'pokemonList' => new Pokemon,
         'teams' => new Teams,
@@ -153,6 +155,8 @@ Route::get('league/{slug}/draft/', function($slug) use ($currentUser) {
         'listOfQueuedPokemon' => $listOfQueuedPokemon,
         'user' => (new Authentication)->getCurrentUser(),
         'usersTeam' => $usersTeam,
+        'draftersTeam' => $draftersTeam,
+        'queuedPokemon' => (new DraftedPokemon)->filter("team = '$draftersTeam->id' AND queue IS NOT NULL"),
         'currentUser' => (new Authentication)->getCurrentUser(),
         'currentDrafter' => $league->current()
     ]);
@@ -163,51 +167,13 @@ Route::get('league/{slug}/draft/', function($slug) use ($currentUser) {
 Route::post('league/{leagueId}/skip/', function($leagueId){
     $league = (new Leagues)->find($leagueId);
 
-    $currentDrafter = $league->current()->id;
+    $slack = new Slack($league);
+    $slack->client()->send($league->current()->username. " has just been skipped!");
 
-    $draftOrder = explode(',', $league->draftorder);
-    $i = 0;
+    $league->nextDrafter();
 
-    foreach($draftOrder as $draftUser) {
-
-        if ($league->ordering == 0){
-
-            if ($draftUser == $currentDrafter){
-                
-                if ($draftOrder[$i+1]) {
-                    $nextUser = $draftOrder[$i+1];
-                    break;
-                } else {
-                    $nextUser = $draftOrder[$i];
-                    $order = 1;
-                    break;
-                }
-            }
-
-        } else {
-            // order = 1
-            if ($draftUser == $currentDrafter){
-                
-                if ($draftOrder[$i-1]) {
-                    $nextUser = $draftOrder[$i-1];
-                    break;
-                } else {
-                    $nextUser = $draftOrder[$i];
-                    $order = 0;
-                    break;
-                }
-            }
-            
-        }
-        
-        $i++;
-    }
-    $league->current = $nextUser;
-    if (isset($order)) {
-        $league->ordering = $order;
-        $league->round++;
-    }
-    $league->save();
+    $slack->client()->send($league->current()->username. " is now drafting");
+    
     Render::redirect("/league/$league->slug/draft/");
 });
 
@@ -248,79 +214,22 @@ Route::post('league/unqueue/pokemon/{pokemonId}/{leagueId}/', function($pokemonI
     Render::redirect("/league/$league->slug/draft/");
 });
 
-
-
 Route::post('league/draft/pokemon/{pokemonId}/{leagueId}/', function($pokemonId, $leagueId){
 
     $currentUser = (new Authentication)->getCurrentUser();
 
-    // current user 11
     $league = (new Leagues)->find($leagueId);
 
-    $currentDrafter = $league->current()->id;
+    if ($league->current == $currentUser->id || $currentUser->id == $league->owner) {
+        $league->draftPokemon($pokemonId);
 
-    $draftOrder = explode(',', $league->draftorder);
-    $i = 0;
+        $pokemon = (new Pokemon)->find($pokemonId);
+        $slack = new Slack($league);
+        $slack->client()->send($league->current()->username. " has just drafted Tier ".$pokemon->tier.' '.$pokemon->pokemonName. " for ".$pokemon->points." points");
+        $league->nextDrafter();
 
-    foreach($draftOrder as $draftUser) {
-
-        if ($league->ordering == 0){
-
-            if ($draftUser == $currentDrafter){
-                
-                if ($draftOrder[$i+1]) {
-                    echo $nextUser = $draftOrder[$i+1];
-                    break;
-                } else {
-                    echo $nextUser = $draftOrder[$i];
-                    echo $order = 1;
-                    break;
-                }
-            }
-
-        } else {
-            // order = 1
-            if ($draftUser == $currentDrafter){
-                
-                if ($draftOrder[$i-1]) {
-                    echo $nextUser = $draftOrder[$i-1];
-                    break;
-                } else {
-                    echo $nextUser = $draftOrder[$i];
-                    echo $order = 0;
-                    break;
-                }
-            }
-            
-        }
+        $slack->client()->send('Now Drafting: '.$league->current()->username);
         
-        $i++;
-    }
-
-
-    $teams = (new Teams)->find("league = '$leagueId' AND owner = '$currentUser->id'");
-
-    $pokemon = (new Pokemon)->find($pokemonId);
-
-    
-
-    $draftedPokemon = new DraftedPokemon;
-
-    if ($league->current == $currentUser->id) {
-        $draftedPokemon->team = $teams->id;
-        $draftedPokemon->pokemon = $pokemonId;
-        $draftedPokemon->league = $leagueId;
-        $draftedPokemon->save();
-
-        $teams->points = $teams->points - $pokemon->points;
-        $teams->save();
-
-        $league->current = $nextUser;
-        if (isset($order)) {
-            $league->ordering = $order;
-            $league->round++;
-        }
-        $league->save();
     }
     
     Render::redirect("/league/$league->slug/draft/");
@@ -437,9 +346,16 @@ Route::post('league/{slug}/schedule/', function($slug){
     $schedule->date = date('Y-m-d', strtotime($_POST['date']));
     $schedule->save();
 
+    $team1 = (new Teams)->find($_POST['team1']);
+
+    $team2 = (new Teams)->find($_POST['team2']);
+
+    $slack = new Slack($league);
+
+    $slack->client()->send("A match has been created for $team1->name and $team2->name on ".date('l F jS Y', strtotime($_POST['date'])));
+
     Render::redirect("/league/$slug/schedule/");
 });
-
 
 Route::post('league/{leagueId}/tradeoffer/', function($leagueId){
 
@@ -546,7 +462,20 @@ Route::post('league/{leagueId}/offer/', function($leagueId){
 });
 
 
+Route::get('league/{slug}/chat/', function($slug) use($currentUser) {
 
+    $league = (new Leagues)->find("slug = '$slug'");
+
+    if ($currentUser->id == $league->owner) {
+        $isHost = true;
+    }
+    
+    Render::view('League.league-chat', [
+        'league' => $league,
+        'isHost' => $isHost,
+        'currentUser' => (new Authentication)->getCurrentUser()
+    ]);
+});
 
 Route::get('league/{slug}/', function($slug) use ($currentUser) {
     $league = (new Leagues)->find("slug = '$slug'");

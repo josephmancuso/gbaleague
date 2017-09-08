@@ -73,17 +73,51 @@
         <hr>
 
         @if ($league->status == 1)
+
+            <!-- QUEUED POKEMON -->
+            @if ($queuedPokemon && $user->id == $currentDrafter->id || $isHost)
+
+                @foreach($queuedPokemon as $pokemon)
+
+                @if (!in_array($pokemon->queue, $listOfDraftedPokemon))
+                @declare $pokemonInfo = $pokemonList->find($pokemon->queue)
+                    <div class="col-xs-12 col-sm-3 text-center">
+                    <h2>{{ $pokemonInfo->pokemonName }}</h2>
+                    <h4>Points: {{ $pokemonInfo->points }}</h4>
+
+                    @if ($usersTeam->points >= $pokemonInfo->points || $draftersTeam->points >= $pokemonInfo->points)
+                    <form action="/league/draft/pokemon/{{$pokemon->queue}}/{{$league->id}}/" method="post">
+                        <button class="btn btn-primary">
+                            Draw from Queue
+                        </button>
+                    </form>
+                    @else
+                    <p>
+                    Not enough points
+                    </p>
+
+                    <p>
+                    Queued
+                    </p>
+                    @endif
+                    </div>
+                        
+                @endif
+                @endforeach
+            @endif
+            <!-- ./QUEUED POKEMON -->
+
             @foreach ($pokemonList->order('tier, pokemonName')->all() as $pokemon)
 
                 <div class="col-xs-12 col-sm-3 text-center" tier="{{ $pokemon->tier }}">
                     <h2>{{ $pokemon->pokemonName }}</h2>
                     <h4>Points: {{ $pokemon->points }}</h4>
             
-            @if ($user->id == $currentDrafter->id)
+            @if ($user->id == $currentDrafter->id || $isHost)
 
                 @if (!in_array($pokemon->id, $listOfDraftedPokemon))
 
-                @if ($usersTeam->points >= $pokemon->points)
+                @if ($usersTeam->points >= $pokemon->points || $draftersTeam->points >= $pokemon->points)
                 <form action="/league/draft/pokemon/{{$pokemon->id}}/{{$league->id}}/" method="post">
                     <button class="btn btn-success">
                         Draft

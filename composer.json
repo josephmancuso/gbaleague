@@ -14,7 +14,8 @@
         "miraframework/installer": "~2.0",
         "symfony/console": "~2.0",
         "cocur/slugify": "^3.0",
-        "miraframework/mail": "^1.0"
+        "miraframework/mail": "^1.0",
+        "maknz/slack": "^1.7"
     },
     "autoload": {
         "psr-4": {
