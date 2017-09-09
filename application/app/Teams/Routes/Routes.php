@@ -15,8 +15,11 @@ $currentUser = (new Middleware\Authentication)->getCurrentUser();
 
 Route::get('team/create/', function() use ($currentUser) {
 
+    $teamCount = count((new Teams)->filter("owner = '$currentUser->id'"));
+
     Render::view('Teams.create', [
-        'currentUser' => $currentUser
+        'currentUser' => $currentUser, 
+        'teamCount' => $teamCount
     ]);
 });
 

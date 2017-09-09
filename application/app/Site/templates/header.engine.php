@@ -61,6 +61,9 @@
                             <li class="active"><a href="/">home</a></li>
                             <!-- <li><a href="suparsport/about.html">pokedex</a></li> -->
                             <li><a href="/discover/">discover</a></li>
+							@unless ($currentUser->member)
+							<li><a href="/premium/" style="color: #f1c40f">Premium</a></li>
+							@endunless
                             <li><a>Create</a>
                                 <ul>
                                     <li><a href="/league/create/">A League</a></li>
@@ -69,7 +72,18 @@
                             </li>                           
 
 							@if ($currentUser->username)
-							<li><a>{{ $currentUser->username }}</a>
+							<li>
+								<a 
+								@if ($currentUser->member)
+									style="color: #f1c40f"
+								@endif
+								>
+								
+								{{ $currentUser->username }} 
+								@if ($currentUser->member)
+									Premium
+								@endif
+								</a>
                                 <ul>
                                     <li><a href="/logout/">Logout</a></li>
                                 </ul>

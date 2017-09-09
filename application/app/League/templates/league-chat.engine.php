@@ -14,35 +14,32 @@
     about drafts, schedules and trades. You'll receive messages from GBALeague.com into your Slack channels when certain actions occur within the league. Teams can stay up to date on their mobile phones with the Slack app.
     </div>
 
-    <div class="row">
-
-    
-       <div class="col-xs-12 col-md-6 col-md-offset-3">
-       <form action="/integrations/slack/add/{{ $league->id }}/" method="POST">
-            <div class="form-group">
-                <label>Slack Webhook </label>
-                <input type="text" name="webhook" class="form-control" placeholder="" value="{{ $league->slackwebhook }}" required>
-                <div> Not sure about this? </div>
-                <a href="https://my.slack.com/apps/new/A0F7XDUAZ-incoming-webhooks" target="_blank">
-                    <div class="btn btn-primary">Find my Slack webhook</div>
-                </a>
-            </div>
-            
-            <div class="form-group">
-                <label>Default Channel </label>
-                <input type="text" name="channel" class="form-control" placeholder="" value="{{ $league->slackchannel }}" required>
-                <div>Leaving this blank will default to the #general channel</div>
-            </div>
-            
-            <div class="form-group text-center">
-                <button class="btn btn-success">
-                    Integrate Slack
-                </button>
-            </div>
-        </form>
+@unless ($isHost && $currentUser->member)
+<h2 class="text-center"><span class="fa fa-lock"></span> Locked for <span class="gold">Premium</span> Members Only</h2>
+<div class="text-center">
+    <a href="/premium/">
+        <div class="btn btn-warning">
+            Sign Up For Premium
         </div>
-    </div>
+    </a>
+</div>
+@endunless
 
+@if ($isHost && $currentUser->member)
+    <div class="row text-center">
+    <h2> Integrate With Slack </h2>
+
+    @if ($league->slackwebhook)
+        <div class="alert alert-success text-center">
+            This league is integrated with Slack. Any major events of this league will be broadcasted in your Slack team.
+        </div>
+    @endif
+
+    <a href="https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=140404785458.236564549872&state={{$league->id}}"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+       
+        
+    </div>
+@endif
     <div class="row">
         
     </div>

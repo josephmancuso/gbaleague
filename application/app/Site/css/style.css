@@ -1061,3 +1061,11 @@ body {
     padding: 9px 18px;
     text-transform: uppercase;
   }
+
+.gold{
+  color: #f1c40f;
+}
+
+.red{
+  color: #e74c3c;
+}

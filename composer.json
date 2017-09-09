@@ -15,7 +15,8 @@
         "symfony/console": "~2.0",
         "cocur/slugify": "^3.0",
         "miraframework/mail": "^1.0",
-        "maknz/slack": "^1.7"
+        "maknz/slack": "^1.7",
+        "stripe/stripe-php": "^5.2"
     },
     "autoload": {
         "psr-4": {

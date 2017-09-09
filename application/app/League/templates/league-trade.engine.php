@@ -8,6 +8,19 @@
         </h1>
     </div>
 
+@unless ($currentUser->member)
+<h2 class="text-center"><span class="fa fa-lock"></span> Locked for <span class="gold">Premium</span> Members Only</h2>
+<div class="text-center">
+    <a href="/premium/">
+        <div class="btn btn-warning">
+            Sign Up For Premium
+        </div>
+    </a>
+</div>
+@endunless
+
+@if ($currentUser->member)
+
     <div class="row text-center">
         <h3>
         Which pokemon would you like to put on the trading block?
@@ -86,4 +99,6 @@
         <hr>
         @endforeach
     
+
+@endif
 </div>

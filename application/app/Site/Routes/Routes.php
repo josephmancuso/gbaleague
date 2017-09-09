@@ -76,10 +76,6 @@ Route::post('register/', function(){
     Render::redirect("/discover/?success=Account created! Now find a league!");
 });
 
-
-
-
-
 Route::post('league/create/', function(){
 
     $currentUser = (new Authentication)->getCurrentUser();
@@ -123,6 +119,14 @@ Route::post('login/', function(){
     }
 
     Render::redirect('/login/?error=Incorrect username or password');
+});
+
+Route::get('premium/', function() use($currentUser) {
+
+    Render::view('Site.premium', [
+        'currentUser' => $currentUser, 
+        'stripe_public_key' => getenv('stripe_public_key')
+    ]);
 });
 
 

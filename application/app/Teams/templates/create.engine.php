@@ -33,12 +33,23 @@
         </div>
 
         <div class="row text-center">
-        @if ($currentUser->id)
-            <button class="btn btn-success">
-                Create Team
-            </button>
-        @else 
-            Please <a href="/login/"><span class="btn btn-success">Sign In</span></a> or <a href="/register/"><span class="btn btn-primary">Register</span></a>
+        @if ($currentUser->member || (!$currentUser->member && $teamCount < 2))
+            @if ($currentUser->id)
+                <button class="btn btn-success">
+                    Create Team
+                </button>
+            @else 
+                Please <a href="/login/"><span class="btn btn-success">Sign In</span></a> or <a href="/register/"><span class="btn btn-primary">Register</span></a>
+            @endif
+        @else
+            <h2 class="text-center"><span class="fa fa-lock"></span> More than 3 Teams are Locked for <span class="gold">Premium</span> Members Only</h2>
+            <div class="text-center">
+                <a href="/premium/">
+                    <div class="btn btn-warning">
+                        Sign Up For Premium
+                    </div>
+                </a>
+            </div>
         @endif
         </div>
         
