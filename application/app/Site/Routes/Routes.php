@@ -10,6 +10,7 @@ use App\League\Models\Accounts;
 use Cocur\Slugify\Slugify;
 
 use Middleware\Authentication;
+use Middleware\MailChimp;
 
 // Routes Here
 
@@ -72,6 +73,9 @@ Route::post('register/', function(){
         'username' => $username,
         'email' => $_POST['email']
     ]);
+
+    $currentUser = (new Authentication)->getCurrentUser();
+    $result = MailChimp::subscribe($currentUser);    
 
     Render::redirect("/discover/?success=Account created! Now find a league!");
 });

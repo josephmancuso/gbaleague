@@ -6,6 +6,7 @@ use Mira\Render\Render;
 use App\League\Models\Pull;
 use App\League\Models\Leagues;
 use Middleware\Slack;
+use Middleware\MailChimp;
 
 use Middleware\Authentication;
 
@@ -56,4 +57,8 @@ Route::post('integrations/stripe/plan/', function() {
     \Stripe\Subscription::create(array('plan' => 'gbaleague', 'customer' => $customer->id));
 
     Render::redirect('/');
+});
+
+Route::get('integrations/mailchimp/test/', function(){
+    
 });
