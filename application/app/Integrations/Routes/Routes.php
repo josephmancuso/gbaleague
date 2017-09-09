@@ -53,6 +53,10 @@ Route::post('integrations/stripe/plan/', function() {
     $currentUser->customer = $customer->id;
 
     $currentUser->save();
+
+    if ($currentUser->id) {
+        $result = MailChimp::premium($currentUser, 'unsubscribed'); 
+    }
     
     \Stripe\Subscription::create(array('plan' => 'gbaleague', 'customer' => $customer->id));
 

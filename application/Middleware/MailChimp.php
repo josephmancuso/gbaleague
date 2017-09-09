@@ -18,4 +18,21 @@ class MailChimp
 
         return $result;
     }
+    
+    public static function premium(\App\League\Models\Accounts $account, $status = 'subscribed')
+    {
+
+        $MailChimp = new \DrewM\MailChimp\MailChimp(getenv('mailchimp_key'));
+
+        $list_id = getenv('premium_list');
+
+        $result = $MailChimp->post("lists/$list_id/members", [
+            'email_address' => $account->email,
+            'status'        => $status,
+        ]);
+
+        return $result;
+    }
+
+
 }

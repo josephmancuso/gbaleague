@@ -125,7 +125,10 @@ Route::post('login/', function(){
     Render::redirect('/login/?error=Incorrect username or password');
 });
 
-Route::get('premium/', function() use($currentUser) {
+Route::get('premium/', function() use ($currentUser) {
+    if ($currentUser->id) {
+        $result = MailChimp::premium($currentUser); 
+    }
 
     Render::view('Site.premium', [
         'currentUser' => $currentUser, 
