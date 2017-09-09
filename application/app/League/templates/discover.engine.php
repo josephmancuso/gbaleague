@@ -29,8 +29,11 @@
 		</a>
 	</div>
     <div class="row">
-        @foreach ($leagues->order('-id')->all() as $league)
-            <div class="col-xs-12 col-sm-6 col-md-4">
+        @foreach (array_chunk($leagues->order('-id')->all(), 3) as $leagueChunk)
+
+		<div class="row">
+		@foreach($leagueChunk as $league)
+            <div class="col-xs-12 col-sm-4">
                 <h1>{{ $league->name }}</h1>
 				<h3>Owner: {{ $leagues->find($league->id)->owner()->username }}</h3>
 				<h4>Draft Status: 
@@ -51,6 +54,8 @@
 					</a>
 				</div>
             </div>
+		@endforeach
+		</div>
         @endforeach
         <div class="col-xs-12 col-sm-6 col-md-4"></div>
     </div>
