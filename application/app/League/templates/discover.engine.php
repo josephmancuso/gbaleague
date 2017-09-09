@@ -29,7 +29,7 @@
 		</a>
 	</div>
     <div class="row">
-        @foreach ($leagues->all() as $league)
+        @foreach ($leagues->order('-id')->all() as $league)
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <h1>{{ $league->name }}</h1>
 				<h3>Owner: {{ $leagues->find($league->id)->owner()->username }}</h3>

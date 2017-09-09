@@ -35,6 +35,8 @@ Route::get('integration/oauth/slack/', function(){
 // Routes Here
 Route::post('integrations/slack/', function(){
     $slackStuff = json_decode(file_get_contents("php://input"), true);
+
+    var_dump($slackStuff);
 });
 
 Route::post('integrations/stripe/plan/', function() {

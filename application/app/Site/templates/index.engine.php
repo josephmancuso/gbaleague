@@ -10,7 +10,7 @@
 				<div class="hero-content fix">
 					<h1>GBALeague</h1>
 					<h3>Global Battle Association</h3>
-					<a href="#feature" class="button large color-hover">Discover</a>
+					<a href="/discover/" class="button large color-hover">Discover</a>
 				</div>
 			</div>
 		</div>

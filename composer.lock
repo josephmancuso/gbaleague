@@ -727,16 +727,16 @@
         },
         {
             "name": "miraframework/render",
-            "version": "v2.0.3",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MiraFramework/render.git",
-                "reference": "eebacb0c2f724e57dd2a3fe0613b9b56f017c301"
+                "reference": "1f57c9284dbf8b39d9484b533dd16094819bd2b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MiraFramework/render/zipball/eebacb0c2f724e57dd2a3fe0613b9b56f017c301",
-                "reference": "eebacb0c2f724e57dd2a3fe0613b9b56f017c301",
+                "url": "https://api.github.com/repos/MiraFramework/render/zipball/1f57c9284dbf8b39d9484b533dd16094819bd2b2",
+                "reference": "1f57c9284dbf8b39d9484b533dd16094819bd2b2",
                 "shasum": ""
             },
             "type": "library",
@@ -751,7 +751,7 @@
                 }
             ],
             "description": "A Service Provider to add Render class to Mira Framework",
-            "time": "2017-09-02T20:28:42+00:00"
+            "time": "2017-09-02T21:12:03+00:00"
         },
         {
             "name": "miraframework/shorthand",
