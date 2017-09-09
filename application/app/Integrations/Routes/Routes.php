@@ -5,6 +5,7 @@ use Mira\Render\Render;
 
 use App\League\Models\Pull;
 use App\League\Models\Leagues;
+use App\Site\Models\Affiliate;
 use Middleware\Slack;
 use Middleware\MailChimp;
 
@@ -56,6 +57,16 @@ Route::post('integrations/stripe/plan/', function() {
 
     if ($currentUser->id) {
         $result = MailChimp::premium($currentUser, 'unsubscribed'); 
+    }
+
+    if ($_POST['code']) {
+        $affiliate = new Affiliate();
+
+        $affiliate->user = $currentUser->id;
+        $affiliate->code = $_POST['code'];
+        $affiliate->date_added = date("Y-m-d");
+
+        $affiliate->save();
     }
     
     \Stripe\Subscription::create(array('plan' => 'gbaleague', 'customer' => $customer->id));

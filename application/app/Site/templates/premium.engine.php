@@ -82,6 +82,9 @@
 					<p>Over 5800 people have joined the site!</p>
 					@if ($currentUser->id)
 					<form action="/integrations/stripe/plan/" method="POST">
+					@if ($_GET['code'])
+					<input type="hidden" name="code" value="{{ $_GET['code'] }}">
+					@endif
                         <script
                             src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                             data-key="{{ $stripe_public_key }}"

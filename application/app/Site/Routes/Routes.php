@@ -6,6 +6,7 @@ use Mira\Mail\Mail;
 
 use App\League\Models\Leagues;
 use App\League\Models\Accounts;
+use App\Site\Models\Affiliate;
 
 use Cocur\Slugify\Slugify;
 
@@ -135,6 +136,11 @@ Route::get('premium/', function() use ($currentUser) {
         'stripe_public_key' => getenv('stripe_public_key')
     ]);
 });
+
+Route::get('{affiliate}/', function($affiliate) use ($currentUser) {
+    Render::redirect("/premium/?code=$affiliate");
+});
+
 
 
 
