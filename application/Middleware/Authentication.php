@@ -5,10 +5,6 @@ namespace Middleware;
 use App\League\Models\Accounts;
 use Mira\Render\Render;
 
-session_start();
-
-$_SESSION['authcode']; 
-
 class Authentication
 {
       public function getCurrentUser(){
