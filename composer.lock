@@ -742,16 +742,16 @@
         },
         {
             "name": "miraframework/project",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MiraFramework/project.git",
-                "reference": "53cdfd4638ce015e21b4b454bfc09039cbea2542"
+                "reference": "b8ee0dc5859da4ee03bed92522faa60668608690"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MiraFramework/project/zipball/53cdfd4638ce015e21b4b454bfc09039cbea2542",
-                "reference": "53cdfd4638ce015e21b4b454bfc09039cbea2542",
+                "url": "https://api.github.com/repos/MiraFramework/project/zipball/b8ee0dc5859da4ee03bed92522faa60668608690",
+                "reference": "b8ee0dc5859da4ee03bed92522faa60668608690",
                 "shasum": ""
             },
             "type": "library",
@@ -766,20 +766,20 @@
                 }
             ],
             "description": "A Service Provider to add Project support to get configuration files easier for the Mira Framework",
-            "time": "2017-07-23T03:07:04+00:00"
+            "time": "2017-09-10T02:20:40+00:00"
         },
         {
             "name": "miraframework/render",
-            "version": "v2.0.4",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MiraFramework/render.git",
-                "reference": "1f57c9284dbf8b39d9484b533dd16094819bd2b2"
+                "reference": "fba01a2daf60b9858c4dfd5f515cda06c2e8f99e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MiraFramework/render/zipball/1f57c9284dbf8b39d9484b533dd16094819bd2b2",
-                "reference": "1f57c9284dbf8b39d9484b533dd16094819bd2b2",
+                "url": "https://api.github.com/repos/MiraFramework/render/zipball/fba01a2daf60b9858c4dfd5f515cda06c2e8f99e",
+                "reference": "fba01a2daf60b9858c4dfd5f515cda06c2e8f99e",
                 "shasum": ""
             },
             "type": "library",
@@ -794,7 +794,7 @@
                 }
             ],
             "description": "A Service Provider to add Render class to Mira Framework",
-            "time": "2017-09-02T21:12:03+00:00"
+            "time": "2017-09-10T02:21:47+00:00"
         },
         {
             "name": "miraframework/shorthand",
