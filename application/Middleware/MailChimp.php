@@ -31,6 +31,13 @@ class MailChimp
             'status'        => $status,
         ]);
 
+        if ($account->ref) {
+            $subscriber_hash = $MailChimp->subscriberHash($account->email);
+            $result = $MailChimp->patch("lists/$list_id/members/$subscriber_hash", [
+				'merge_fields' => ['CODE'=> $account->ref],
+			]); 
+        }
+
         return $result;
     }
 

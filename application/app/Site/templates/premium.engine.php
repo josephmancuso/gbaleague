@@ -81,10 +81,8 @@
 					<h2>Join Now For Only $4.99 /mo</h2>
 					<p>Over 5800 people have joined the site!</p>
 					@if ($currentUser->id)
+					{{ var_dump($currentUser) }}
 					<form action="/integrations/stripe/plan/" method="POST">
-					@if ($_GET['code'])
-					<input type="hidden" name="code" value="{{ $_GET['code'] }}">
-					@endif
                         <script
                             src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                             data-key="{{ $stripe_public_key }}"
