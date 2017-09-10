@@ -56,10 +56,10 @@ Route::post('integrations/stripe/plan/', function() {
     $currentUser->save();
 
     if ($currentUser->id) {
-        $result = MailChimp::premium($currentUser, 'unsubscribed'); 
+        $result = MailChimp::premium($currentUser, 'unsubscribe'); 
     }
 
-    if ($_POST['code']) {
+    if ($currentUser->ref) {
         $affiliate = new Affiliate();
 
         $affiliate->user = $currentUser->id;
