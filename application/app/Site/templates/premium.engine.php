@@ -85,7 +85,7 @@
 						@if ($currentUser->ref)
 						<div class="form-group">
 							<label for="ref">Code</label>
-							<input id="ref" type="text" value="{{$currentUser->ref}}" name="code" disabled>
+							<input id="ref" type="text" value="{{$currentUser->ref}}" name="code" readonly="readonly">
 						</div>
 						@endif
                         <script
