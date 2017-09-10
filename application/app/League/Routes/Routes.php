@@ -59,6 +59,12 @@ Route::get('league/{slug}/teams/', function($slug) use ($currentUser){
 
 Route::post('league/{leagueId}/team/remove/', function($leagueId){
     $league = (new Leagues)->find($leagueId);
+
+
+    if ($league->status == 1 && $league->current == $_POST['team']) {
+        $league->nextDrafter();
+    }
+
     $teamId = $_POST['team'];
 
     $team = (new Teams)->find($teamId);
@@ -75,14 +81,16 @@ Route::post('league/{leagueId}/team/remove/', function($leagueId){
     }
 
     $draftorder = '';
-    $allTeams = (new Teams)->filter(" league = '$league->id' ");
-
+    $allTeams = (new Teams)->filter(" league = '$leagueId' ");
     foreach($allTeams as $team) {
+        
         $draftorder .= ','.$team->owner;
     }
 
     $draftorder = ltrim($draftorder, ',');
+    echo $draftorder;
 
+    $league = (new Leagues)->find($leagueId);
     $league->draftorder = $draftorder;
     $league->save();
 
