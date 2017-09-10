@@ -126,9 +126,14 @@ Route::post('login/', function(){
     Render::redirect('/login/?error=Incorrect username or password');
 });
 
-Route::get('premium/', function() use ($currentUser) {
+Route::get('premium/{affiliate}/', function($affiliate) use ($currentUser) {
     if ($currentUser->id) {
-        $result = MailChimp::premium($currentUser); 
+        if ($affiliate) {
+            $currentUser->ref = $affiliate;
+            $currentUser->save();
+        }
+
+        MailChimp::premium($currentUser);
     }
 
     Render::view('Site.premium', [
@@ -136,13 +141,3 @@ Route::get('premium/', function() use ($currentUser) {
         'stripe_public_key' => getenv('stripe_public_key')
     ]);
 });
-
-Route::get('{affiliate}/', function($affiliate) use ($currentUser) {
-    Render::redirect("/premium/?code=$affiliate");
-});
-
-
-
-
-
-
