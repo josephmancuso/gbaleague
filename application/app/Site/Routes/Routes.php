@@ -61,6 +61,10 @@ Route::post('register/', function(){
     // hashed password
     $_POST['password'] = sha1($_POST['password']);
 
+    if (isset($_SESSION['ref'])) {
+        $_POST['ref'] = $_SESSION['ref'];
+    }
+
     $accounts->exclude('confirmpassword')->insertFromPost();
 
     $login = (new Authentication)->login($_POST['username'], $password);
@@ -76,7 +80,12 @@ Route::post('register/', function(){
     ]);
 
     $currentUser = (new Authentication)->getCurrentUser();
-    $result = MailChimp::subscribe($currentUser);    
+    $result = MailChimp::subscribe($currentUser);  
+
+    if (isset($_SESSION['ref'])) {
+        Render::redirect("/premium");
+        return;
+    }  
 
     Render::redirect("/discover/?success=Account created! Now find a league!");
 });
@@ -126,14 +135,17 @@ Route::post('login/', function(){
     Render::redirect('/login/?error=Incorrect username or password');
 });
 
-Route::get('premium/{affiliate}/', function($affiliate) use ($currentUser) {
+Route::get('premium/{affiliate}', function($affiliate) use ($currentUser) {
     if ($currentUser->id) {
         if ($affiliate) {
             $currentUser->ref = $affiliate;
             $currentUser->save();
+            // var_dump($currentUser);
         }
 
         MailChimp::premium($currentUser);
+    } else {
+        $_SESSION['ref'] = $affiliate;
     }
 
     Render::view('Site.premium', [
@@ -141,3 +153,13 @@ Route::get('premium/{affiliate}/', function($affiliate) use ($currentUser) {
         'stripe_public_key' => getenv('stripe_public_key')
     ]);
 });
+
+Route::get('premium', function() use ($currentUser) {
+
+    Render::view('Site.premium', [
+        'currentUser' => $currentUser, 
+        'stripe_public_key' => getenv('stripe_public_key')
+    ]);
+});
+
+

@@ -15,7 +15,7 @@
 </div>
 
 <div class="container">
-    @if ($_GET['error'])
+    @if (isset($_GET['error']))
         <div class="alert alert-danger text-center">{{$_GET['error']}}</div>
     @endif
     
