@@ -30,7 +30,7 @@ class Leagues extends Model
                         break;
                     } else {
                         $nextUser = $draftOrder[$i];
-                        $order = 1;
+                        $order = '1';
                         break;
                     }
                 }
@@ -44,7 +44,7 @@ class Leagues extends Model
                         break;
                     } else {
                         $nextUser = $draftOrder[$i];
-                        $order = 0;
+                        $order = '0';
                         break;
                     }
                 }
