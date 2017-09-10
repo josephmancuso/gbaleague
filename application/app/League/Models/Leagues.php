@@ -59,6 +59,19 @@ class Leagues extends Model
             $this->round++;
         }
         $this->save();
+        var_dump($this);
+    }
+
+    public function nextDraftUser() 
+    {
+        $currentDrafter = $this->current()->id;
+
+        $this->nextDrafter();
+
+        if ($currentDrafter == $this->current) {
+            (new $this)->find($this->id)->nextDrafter();
+        }
+       
     }
 
     public function draftPokemon($pokemonId)
@@ -67,7 +80,6 @@ class Leagues extends Model
         $teams = (new Teams)->find("league = '$this->id' AND owner = '$this->current'");
         $pokemon = (new Pokemon)->find($pokemonId);
 
-        var_dump($this);
         $draftedPokemon = new DraftedPokemon;
         $draftedPokemon->team = $teams->id; // $teams
         $draftedPokemon->pokemon = $pokemonId;
