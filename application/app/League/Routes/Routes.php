@@ -21,7 +21,6 @@ use Middleware\Slack;
 $currentUser = (new Authentication)->getCurrentUser();
 
 Route::get('discover/', function() use ($currentUser){
-    $leagues = new Leagues();
 
     Render::view('League.discover', [
         'leagues' => new Leagues,
