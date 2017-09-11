@@ -40,17 +40,11 @@
 			</a>
 			</div>
 
-
-
-			
 			<div class="section-title text-center col-xs-12 col-sm-4">
 			<a href="/team/create/">
 				<div class="btn btn-danger btn-lg">Create A Team</div>
 			</a>
 			</div>
-
-
-
 
 			<div id="demo-container">
 				<div class="mix onepage col-md-4 col-sm-6 col-xs-12">
@@ -176,20 +170,6 @@
 					<p>Over 5500 people have signed up already!</p>
 					<a href="/register/">Register</a>
 				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Footer Top Area
-============================================ -->
-<div class="footer-top">
-	<div class="container">
-		<div class="row">
-			<div class="footer-logo col-xs-12 text-center">
-				<h1>GBALeague</h1>
-			</div>
-			<div class="footer-social col-xs-12 text-center">
 			</div>
 		</div>
 	</div>
