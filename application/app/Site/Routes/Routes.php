@@ -18,9 +18,12 @@ use Middleware\MailChimp;
 $currentUser = (new Authentication)->getCurrentUser();
 
 Route::get('home/', function() use ($currentUser){
+
+    $members = (new Accounts)->filter("id < 1000");
     
     Render::view('Site.index', [
-        'currentUser' => $currentUser
+        'currentUser' => $currentUser,
+        'memberCount' => $members
     ]);
 });
 

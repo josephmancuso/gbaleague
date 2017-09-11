@@ -21,7 +21,6 @@ use Middleware\Slack;
 $currentUser = (new Authentication)->getCurrentUser();
 
 Route::get('discover/', function() use ($currentUser){
-    $leagues = new Leagues();
 
     Render::view('League.discover', [
         'leagues' => new Leagues,
@@ -266,11 +265,20 @@ Route::post('league/draft/pokemon/{pokemonId}/{leagueId}/', function($pokemonId,
         $league->draftPokemon($pokemonId);
 
         $pokemon = (new Pokemon)->find($pokemonId);
-        $slack = new Slack($league);
-        $slack->client()->send($league->current()->username. " has just drafted Tier ".$pokemon->tier.' '.$pokemon->pokemonName. " for ".$pokemon->points." points");
+
+        if ($league->slackwebhook) {
+            $slack = new Slack($league);
+
+            $slack->client()->send($league->current()->username. " has just drafted Tier ".$pokemon->tier.' '.$pokemon->pokemonName. " for ".$pokemon->points." points");
+        }
+
         $league->nextDrafter();
 
-        $slack->client()->send('Now Drafting: '.$league->current()->username);
+        
+        if ($league->slackwebhook) {
+            $slack->client()->send('Now Drafting: '.$league->current()->username);
+        }
+        
         
     }
     

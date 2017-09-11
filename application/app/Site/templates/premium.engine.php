@@ -1,4 +1,4 @@
-
+@extends('Site.header')
 @section('title') Create Pokemon Draft Leagues @endsection
 
 <!-- Hero
@@ -8,9 +8,9 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="hero-content fix">
-					<h1>GBALeague</h1>
-					<h3>Global Battle Association</h3>
-					<a href="#feature" class="button large color-hover">Discover</a>
+					<h1>GBALeague <span class="gold">Premium</span></h1>
+					<h3>Become a premium member today and expand your legacy!</h3>
+					<a href="#feature" class="button large color-hover">Premium</a>
 				</div>
 			</div>
 		</div>
@@ -79,7 +79,7 @@
 			<div class="col-md-12 col-sm-6 col-xs-12">
 				<div class="support-team">
 					<h2>Join Now For Only $4.99 /mo</h2>
-					<p>Over 5800 people have joined the site!</p>
+					<p>Over 6,000 people have joined the site!</p>
 					@if ($currentUser->username)
 					<form action="/integrations/stripe/plan/" method="POST">
 						@if ($currentUser->ref)

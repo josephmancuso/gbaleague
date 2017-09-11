@@ -53,48 +53,77 @@
 
                 <!---- Menu ---->
                 <div id="main-menu" class="main-menu float-right">
-                    <nav>
-                        <ul>
-                            <li class="active"><a href="/">home</a></li>
-                            <!-- <li><a href="suparsport/about.html">pokedex</a></li> -->
-                            <li><a href="/discover/">discover</a></li>
-							@unless ($currentUser->member)
-							<li><a href="/premium/" style="color: #f1c40f">Premium</a></li>
-							@endunless
-                            <li><a>Create</a>
-                                <ul>
-                                    <li><a href="/league/create/">A League</a></li>
-                                    <li><a href="/team/create/">A Team</a></li>
-                                </ul>
-                            </li>                           
-
-							@if ($currentUser->username)
-							<li>
-								<a 
-								@if ($currentUser->member)
-									style="color: #f1c40f"
-								@endif
-								>
-								
-								{{ $currentUser->username }} 
-								@if ($currentUser->member)
-									Premium
-								@endif
-								</a>
-                                <ul>
-                                    <li><a href="/logout/">Logout</a></li>
-                                </ul>
-                            </li>
-							@else
-								<li><a href="/register/">Register</a></li>
-								<li><a href="/login/">Login</a></li>
-							@endif
-							
-                        </ul>
-                    </nav>
+                    
                 </div>
                 <!---- Mobile Menu ---->
-                <div class="mobile-menu"></div>
+				<nav class="navbar navbar-default navbar-fixed-top">
+					<div class="container">
+						<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="/">GBALeague</a>
+						</div>
+						<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="/">Home</a></li>
+							<li><a href="/discover/">Discover</a></li>
+							@unless ($currentUser->member)
+								<li><a href="/premium/" style="color: #f1c40f">Premium</a></li>
+							@endunless
+							<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Create <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="/league/create/">Create A League</a></li>
+								<li><a href="/team/create/">Create A Team</a></li>
+							</ul>
+							</li>
+
+							@if ($currentUser->username && count($currentUser->getLeagues()))
+								<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Leagues <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+
+									@foreach($currentUser->getLeagues() as $league)
+										<li><a href="/league/{{$league->slug}}/">{{ $league->name }}</a></li>
+									@endforeach
+
+								</ul>
+								</li>
+							@endif
+						</ul>
+
+
+
+						<ul class="nav navbar-nav navbar-right">
+
+							@if ($currentUser->username)
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+									{{$currentUser->username}} 
+
+									@if ($currentUser->member)
+									(premium)
+									@endif
+									
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="/logout/">Logout</a></li>
+								</ul>
+							</li>
+
+							@else
+								<li><a href="/login/">Login</a></li>
+								<li class="active"><a href="/register/">Register</a></li>
+							@endif
+						</ul>
+						</div><!--/.nav-collapse -->
+					</div>
+					</nav>
             </div>
         </div>
     </div>

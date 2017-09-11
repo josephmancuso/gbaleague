@@ -1,4 +1,4 @@
-
+@extends('Site.header')
 @section('title') Create A League @endsection
 <!-- Hero
 ============================================ -->

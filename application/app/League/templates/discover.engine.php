@@ -29,6 +29,45 @@
 		</a>
 	</div>
     <div class="row">
+
+		@if ($currentUser->username && count($currentUser->getLeagues()))
+
+			<h2 class="text-center">My Leagues</h2>
+
+			@foreach (array_chunk($currentUser->getLeagues(), 3) as $leagueChunk)
+
+			<div class="row">
+			@foreach($leagueChunk as $league)
+				<div class="col-xs-12 col-sm-4">
+					<h1>{{ $league->name }}</h1>
+					<h3>Owner: {{ $leagues->find($league->id)->owner()->username }}</h3>
+					<h4>Draft Status: 
+						@if ($league->status == 0)
+							Not Started
+						@elseif ($league->status == 1)
+							Started
+						@elseif ($league->status == 2)
+							Done
+						@endif
+					</h4>
+
+					<div class="row text-center">
+						<a href="/league/{{$league->slug}}/">
+							<div class="btn btn-success">
+								View
+							</div>
+						</a>
+					</div>
+				</div>
+			@endforeach
+			</div>
+			@endforeach
+			<hr>
+		@endif
+
+
+
+		<h2 class="text-center">Discover</h2>
         @foreach (array_chunk($leagues->order('-id')->all(), 3) as $leagueChunk)
 
 		<div class="row">
