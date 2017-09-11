@@ -1,3 +1,4 @@
+@extends('Site.header')
 <!-- Hero
 ============================================ -->
 <div class="hero-wrapper text-center" style="background-image: url({{ loadStatic('Site') }}/images/page-banner.jpg)">
