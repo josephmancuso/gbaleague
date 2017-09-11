@@ -79,7 +79,7 @@
 			<div class="col-md-12 col-sm-6 col-xs-12">
 				<div class="support-team">
 					<h2>Join Now For Only $4.99 /mo</h2>
-					<p>Over 5800 people have joined the site!</p>
+					<p>Over 6,000 people have joined the site!</p>
 					@if ($currentUser->id)
 					<form action="/integrations/stripe/plan/" method="POST">
 						@if ($currentUser->ref)

@@ -167,7 +167,7 @@
 			<div class="col-md-12 col-sm-6 col-xs-12">
 				<div class="support-team">
 					<h2>Join Now!</h2>
-					<p>Over 5500 people have signed up already!</p>
+					<p>Over 6,000 people have signed up already!</p>
 					<a href="/register/">Register</a>
 				</div>
 			</div>
