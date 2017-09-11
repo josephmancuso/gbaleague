@@ -1,6 +1,6 @@
 <?php
 
 return [
-     'header' => 'Site.header',
+    //  'header' => 'Site.header',
      'footer' => 'Site.footer',
 ];
