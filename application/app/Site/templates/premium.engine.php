@@ -8,9 +8,9 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="hero-content fix">
-					<h1>GBALeague</h1>
-					<h3>Global Battle Association</h3>
-					<a href="#feature" class="button large color-hover">Discover</a>
+					<h1>GBALeague <span class="gold">Premium</span></h1>
+					<h3>Become a premium member today and expand your legacy!</h3>
+					<a href="#feature" class="button large color-hover">Premium</a>
 				</div>
 			</div>
 		</div>
