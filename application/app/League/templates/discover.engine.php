@@ -35,12 +35,12 @@
 			<h2 class="text-center">My Leagues</h2>
 
 			@foreach (array_chunk($currentUser->getLeagues(), 3) as $leagueChunk)
+
 			<div class="row">
 			@foreach($leagueChunk as $league)
-			@declare $leagueInfo = $leagues->find($league)
 				<div class="col-xs-12 col-sm-4">
-					<h1>{{ $leagueInfo->name}}</h1>
-					<h3>Owner: {{ $leagueInfo->owner()->username }}</h3>
+					<h1>{{ $league->name }}</h1>
+					<h3>Owner: {{ $leagues->find($league->id)->owner()->username }}</h3>
 					<h4>Draft Status: 
 						@if ($league->status == 0)
 							Not Started
@@ -52,7 +52,7 @@
 					</h4>
 
 					<div class="row text-center">
-						<a href="/league/{{$leagueInfo->slug}}/">
+						<a href="/league/{{$league->slug}}/">
 							<div class="btn btn-success">
 								View
 							</div>
@@ -62,7 +62,7 @@
 			@endforeach
 			</div>
 			@endforeach
-		<hr>
+			<hr>
 		@endif
 
 

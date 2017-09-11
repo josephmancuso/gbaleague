@@ -13,6 +13,8 @@ class Accounts extends Model
     public function getLeagues()
     {
         $allLeagues = [];
+        $returnLeagues = [];
+
         $leagues = (new Leagues)->filter(" owner = '$this->id' ");
 
         foreach($leagues as $league){
@@ -25,6 +27,13 @@ class Accounts extends Model
             $allLeagues[] = $team->league;
         }
 
-        return array_unique($allLeagues);
+        $allLeagues = array_unique($allLeagues);
+        
+
+        foreach($allLeagues as $leagueId){
+            $returnLeagues[] = (new Leagues)->find($leagueId);
+        }
+
+        return $returnLeagues;
     }
 }

@@ -81,7 +81,23 @@
 								<li><a href="/team/create/">Create A Team</a></li>
 							</ul>
 							</li>
+
+							@if ($currentUser->username && count($currentUser->getLeagues()))
+								<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Leagues <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+
+									@foreach($currentUser->getLeagues() as $league)
+										<li><a href="/league/create/">{{ $league->name }}</a></li>
+									@endforeach
+
+								</ul>
+								</li>
+							@endif
 						</ul>
+
+
+
 						<ul class="nav navbar-nav navbar-right">
 
 							@if ($currentUser->username)
