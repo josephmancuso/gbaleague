@@ -88,7 +88,7 @@
 								<ul class="dropdown-menu">
 
 									@foreach($currentUser->getLeagues() as $league)
-										<li><a href="/league/create/">{{ $league->name }}</a></li>
+										<li><a href="/league/{{$league->slug}}/">{{ $league->name }}</a></li>
 									@endforeach
 
 								</ul>
