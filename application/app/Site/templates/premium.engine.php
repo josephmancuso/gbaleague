@@ -80,7 +80,7 @@
 				<div class="support-team">
 					<h2>Join Now For Only $4.99 /mo</h2>
 					<p>Over 5800 people have joined the site!</p>
-					@if ($currentUser->id)
+					@if ($currentUser->username)
 					<form action="/integrations/stripe/plan/" method="POST">
 						@if ($currentUser->ref)
 						<div class="form-group">
