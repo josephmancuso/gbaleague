@@ -8,7 +8,10 @@
 	@unless($teams)
 		<h1 class="text-center">No Teams</h1>
 	@endunless
-    @foreach ($teams as $team)
+    @foreach (array_chunk($teams, 3) as $teamChunk)
+
+		<div class="row">
+		@foreach($teamChunk as $team)
         <div class="col-xs-12 col-sm-4 text-center">
 
 			@if($isHost || $usersTeam->id == $team->id)
@@ -64,6 +67,9 @@
 			@endforeach
 
         </div>
+		@endforeach
+
+		</div>
     @endforeach
         
     </div>
