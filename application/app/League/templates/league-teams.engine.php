@@ -43,28 +43,51 @@
 
 			<h4>Pokemon</h4>
 			<hr>
-			
-			@foreach ($draftedPokemon->filter("team = $team->id AND queue IS NULL") as $pokemon)
-			@declare $pokemonInfo = $pokemonList->find($pokemon->pokemon)
 
-			<div>
-				{{ $pokemonInfo->pokemonName }}
-				{{ $pokemonInfo->points }}
-			
+			@if ($league->tournament && $isHost)
+				<div class="alert alert-warning text-center">
+					Only the host can see these pokemon
+				</div>
+				@foreach ($tournamentPokemon->filter("team = $team->id") as $pokemon)
+				@declare $pokemonInfo = $pokemonList->find($pokemon->pokemon)
 
-			@if ($isHost)
-			<form action="/team/remove/{{ $pokemon->id }}/{{$league->id}}/" method="POST">
-				<button class="btn btn-danger">
-					<span class="fa fa-close"></span> Remove
-				</button>
-			</form>
+				<div>
+					{{ $pokemonInfo->pokemonName }}
+
+				<hr>
+				</div>
+				
+				@endforeach
+
+			@elseif($league->tournament)
+				<div class="alert alert-warning text-center">
+					Only the host can see these pokemon
+				</div>
+			@else
+			
+				@foreach ($draftedPokemon->filter("team = $team->id AND queue IS NULL") as $pokemon)
+				@declare $pokemonInfo = $pokemonList->find($pokemon->pokemon)
+
+				<div>
+					{{ $pokemonInfo->pokemonName }}
+					{{ $pokemonInfo->points }}
+				
+
+				@if ($isHost)
+				<form action="/team/remove/{{ $pokemon->id }}/{{$league->id}}/" method="POST">
+					<button class="btn btn-danger">
+						<span class="fa fa-close"></span> Remove
+					</button>
+				</form>
+				@endif
+
+
+				<hr>
+				</div>
+				
+				@endforeach
+
 			@endif
-
-
-			<hr>
-			</div>
-			
-			@endforeach
 
         </div>
 		@endforeach

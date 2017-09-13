@@ -111,6 +111,12 @@ Route::post('league/create/', function(){
     $league->owner = $currentUser->id;
     $league->uniqueid = uniqid();
     $league->slug = $slug;
+
+    if ($_POST['tournament']) {
+        $league->tournament = $_POST['tournament'];
+    }
+
+    $league->slug = $slug;
     $league->save();
 
     Render::redirect("/league/$slug/join/");

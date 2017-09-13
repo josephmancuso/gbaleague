@@ -28,6 +28,20 @@
                 <input type="text" class="form-control" name="name">
             </div>
 
+            @if ($currentUser->member)
+            <div class="form-group">
+                <label>League Tournament?</label>
+                <select class="form-control" name="tournament">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+
+                <div class="alert alert-warning">
+                    League Tournaments do not require a draft. All coaches will sign up with a team and register their pokemon. League hosts will then confirm that team into the league and create a schedule.
+                </div>
+            </div>
+            @endif
+
             
             <div class="form-group">
                 <label>League Overview</label>

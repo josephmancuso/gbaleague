@@ -12,6 +12,7 @@ use App\League\Models\Schedule;
 use App\League\Models\Trading;
 use App\League\Models\TradingOffers;
 use App\League\Models\Pull;
+use App\Tournaments\Models\TournamentPokemon;
 
 use Middleware\Authentication;
 use Middleware\Slack;
@@ -51,6 +52,7 @@ Route::get('league/{slug}/teams/', function($slug) use ($currentUser){
         'teamModel' => new Teams,
         'draftedPokemon' => new DraftedPokemon,
         'pokemonList' => new Pokemon,
+        'tournamentPokemon' => new TournamentPokemon,
     ]);
 
     die();
@@ -302,7 +304,9 @@ Route::get('league/{slug}/requests/', function($slug){
         'league' => $league,
         'isHost' => $isHost,
         'currentUser' => $currentUser,
-        'teams' => new Teams
+        'teams' => new Teams,
+        'tournamentPokemon' => new tournamentPokemon,
+        'pokemonModel' => new Pokemon,
     ]);
 
     die();

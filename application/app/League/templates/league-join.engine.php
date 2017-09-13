@@ -39,7 +39,13 @@
 
                     @else
                         @if (!$isLeagueMember)
-                        <button class="btn btn-success">Join</button>
+                            @if ($league->tournament)
+                                <a href="/tournaments/team/{{$league->slug}}/">
+                                    <div class="btn btn-danger">Register</div>
+                                </a>
+                            @else
+                                <button class="btn btn-success">Join</button>
+                            @endif
                         @else
                         You are already in this league
                         @endif

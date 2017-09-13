@@ -8,11 +8,19 @@
 				<h3>
 				</h3>
 				<a href="/league/{{$league->slug}}/" class="button large color-hover">Overview</a>
+
+				@unless($league->tournament)
 				<a href="/league/{{$league->slug}}/draft/" class="button large color-hover">Draft</a>
+				@endunless
+				
 				<a href="/league/{{$league->slug}}/teams/" class="button large color-hover">Teams</a>
 				<a href="/league/{{$league->slug}}/join/" class="button large color-hover">Join</a>
 				<br><br>
+
+				@unless($league->tournament)
 				<a href="/league/{{$league->slug}}/trade/" class="button large color-hover">Trade</a>
+				@endunless
+
 				<a href="/league/{{$league->slug}}/schedule/" class="button large color-hover">Schedule</a>
 
 				@if ($isHost)

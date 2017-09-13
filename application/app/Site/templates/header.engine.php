@@ -71,6 +71,11 @@
 						<ul class="nav navbar-nav">
 							<li class="active"><a href="/">Home</a></li>
 							<li><a href="/discover/">Discover</a></li>
+
+							@if ($currentUser->member)
+								<li><a href="/tournaments/">Tournaments</a></li>
+							@endif
+
 							@unless ($currentUser->member)
 								<li><a href="/premium/" style="color: #f1c40f">Premium</a></li>
 							@endunless
@@ -79,6 +84,10 @@
 							<ul class="dropdown-menu">
 								<li><a href="/league/create/">Create A League</a></li>
 								<li><a href="/team/create/">Create A Team</a></li>
+
+								@if ($currentUser->member)
+									<li><a href="/league/create/">Create A Tournament</a></li>
+								@endif
 							</ul>
 							</li>
 
