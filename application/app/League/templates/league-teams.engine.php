@@ -26,45 +26,68 @@
 
 			<h4>Owner: {{ $teamModel->find($team->id)->owner()->username }}</h4>
 
-			<h4>Points: {{ $team->points }}</h4>
+			@unless($league->tournament)
+				<h4>Points: {{ $team->points }}</h4>
+				
 
-			@if ($isHost)
-			<form action="/team/points/{{$team->id}}/{{$league->id}}/" method="POST">
-				<div class="input-group">
-					<input type="number" name="points" class="form-control" placeholder="" required>
-					<span class="input-group-btn">
-						<button class="btn btn-success" type="button">Add Points</button>
-					</span>
-				</div>
-			</form>
-			@endif
+				@if ($isHost)
+				<form action="/team/points/{{$team->id}}/{{$league->id}}/" method="POST">
+					<div class="input-group">
+						<input type="number" name="points" class="form-control" placeholder="" required>
+						<span class="input-group-btn">
+							<button class="btn btn-success" type="button">Add Points</button>
+						</span>
+					</div>
+				</form>
+				@endif
+			@endunless
 			
 			<hr>
 
 			<h4>Pokemon</h4>
 			<hr>
-			
-			@foreach ($draftedPokemon->filter("team = $team->id AND queue IS NULL") as $pokemon)
-			@declare $pokemonInfo = $pokemonList->find($pokemon->pokemon)
 
-			<div>
-				{{ $pokemonInfo->pokemonName }}
-				{{ $pokemonInfo->points }}
-			
+			@if ($league->tournament && $isHost)
+				<div class="alert alert-warning text-center">
+					Only the host can see these pokemon
+				</div>
+				@foreach ($tournamentPokemon->filter("team = '$team->id'") as $pokemon)
 
-			@if ($isHost)
-			<form action="/team/remove/{{ $pokemon->id }}/{{$league->id}}/" method="POST">
-				<button class="btn btn-danger">
-					<span class="fa fa-close"></span> Remove
-				</button>
-			</form>
+				<div>
+					{{ $pokemon->pokemon()->pokemonName }}
+				<hr>
+				</div>
+				
+				@endforeach
+
+			@elseif($league->tournament)
+				<div class="alert alert-warning text-center">
+					Only the host can see these pokemon
+				</div>
+			@else
+			
+				@foreach ($draftedPokemon->filter("team = $team->id AND queue IS NULL") as $pokemon)
+				
+				<div>
+					{{ $pokemon->pokemon()->pokemonName }}
+					{{ $pokemon->pokemon()->points }}
+				
+
+				@if ($isHost)
+				<form action="/team/remove/{{ $pokemon->id }}/{{$league->id}}/" method="POST">
+					<button class="btn btn-danger">
+						<span class="fa fa-close"></span> Remove
+					</button>
+				</form>
+				@endif
+
+
+				<hr>
+				</div>
+				
+				@endforeach
+
 			@endif
-
-
-			<hr>
-			</div>
-			
-			@endforeach
 
         </div>
 		@endforeach

@@ -8,8 +8,8 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="hero-content fix">
-					<h1>Discover</h1>
-					<h3>Discover Leagues to play in</h3>
+					<h1>Tournaments</h1>
+					<h3>Discover tournaments to play in</h3>
 				</div>
 			</div>
 		</div>
@@ -30,52 +30,15 @@
 	</div>
     <div class="row">
 
-		@if ($currentUser->username && count($currentUser->getLeagues()))
-
-			<h2 class="text-center">My Leagues</h2>
-
-			@foreach (array_chunk($currentUser->getLeagues(), 3) as $leagueChunk)
-
-			<div class="row">
-			@foreach($leagueChunk as $league)
-				<div class="col-xs-12 col-sm-4">
-					<h1>{{ $league->name }}</h1>
-					<h3>Owner: {{ $league->owner()->username }}</h3>
-					<h4>Draft Status: 
-						@if ($league->status == 0)
-							Not Started
-						@elseif ($league->status == 1)
-							Started
-						@elseif ($league->status == 2)
-							Done
-						@endif
-					</h4>
-
-					<div class="row text-center">
-						<a href="/league/{{$league->slug}}/">
-							<div class="btn btn-success">
-								View
-							</div>
-						</a>
-					</div>
-				</div>
-			@endforeach
-			</div>
-			@endforeach
-			<hr>
-		@endif
-
-
-
-		<h2 class="text-center">Discover</h2>
-        @foreach (array_chunk($leagues->order('-id')->all(), 3) as $leagueChunk)
+		<h2 class="text-center">Tournaments</h2>
+        @foreach (array_chunk($tournaments->getTournaments(), 3) as $tournamentChunk)
 
 		<div class="row">
-		@foreach($leagueChunk as $league)
+		@foreach($tournamentChunk as $league)
             <div class="col-xs-12 col-sm-4">
                 <h1>{{ $league->name }}</h1>
 				<h3>Owner: {{ $league->owner()->username }}</h3>
-				<h4>Draft Status: 
+				<h4>Status: 
 					@if ($league->status == 0)
 						Not Started
 					@elseif ($league->status == 1)

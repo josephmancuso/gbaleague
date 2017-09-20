@@ -17,7 +17,8 @@
         "miraframework/mail": "^1.0",
         "maknz/slack": "^1.7",
         "stripe/stripe-php": "^5.2",
-        "drewm/mailchimp-api": "^2.4"
+        "drewm/mailchimp-api": "^2.4",
+        "miraframework/models": "2.3"
     },
     "autoload": {
         "psr-4": {

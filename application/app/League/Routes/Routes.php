@@ -12,6 +12,7 @@ use App\League\Models\Schedule;
 use App\League\Models\Trading;
 use App\League\Models\TradingOffers;
 use App\League\Models\Pull;
+use App\League\Models\TournamentPokemon;
 
 use Middleware\Authentication;
 use Middleware\Slack;
@@ -51,6 +52,7 @@ Route::get('league/{slug}/teams/', function($slug) use ($currentUser){
         'teamModel' => new Teams,
         'draftedPokemon' => new DraftedPokemon,
         'pokemonList' => new Pokemon,
+        'tournamentPokemon' => new TournamentPokemon,
     ]);
 
     die();
@@ -69,7 +71,7 @@ Route::post('league/{leagueId}/team/remove/', function($leagueId){
 
     $team->league = 'NULL';
 
-    $team->save();
+    $team->save(); 
     
 
     if ($league->slackwebhook) {
@@ -86,13 +88,12 @@ Route::post('league/{leagueId}/team/remove/', function($leagueId){
     }
 
     $draftorder = ltrim($draftorder, ',');
-    echo $draftorder;
 
     $league = (new Leagues)->find($leagueId);
     $league->draftorder = $draftorder;
     $league->save();
 
-    // Render::redirect("/league/$league->slug/teams/");
+    Render::redirect("/league/$league->slug/teams/"); 
 });
 
 Route::get('league/{slug}/join/', function($slug) use ($currentUser) {
@@ -302,7 +303,9 @@ Route::get('league/{slug}/requests/', function($slug){
         'league' => $league,
         'isHost' => $isHost,
         'currentUser' => $currentUser,
-        'teams' => new Teams
+        'teams' => new Teams,
+        'tournamentPokemon' => new tournamentPokemon,
+        'pokemonModel' => new Pokemon,
     ]);
 
     die();

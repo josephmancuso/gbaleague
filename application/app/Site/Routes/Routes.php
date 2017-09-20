@@ -6,6 +6,7 @@ use Mira\Mail\Mail;
 
 use App\League\Models\Leagues;
 use App\League\Models\Accounts;
+use App\League\Models\Teams;
 use App\Site\Models\Affiliate;
 
 use Cocur\Slugify\Slugify;
@@ -18,8 +19,7 @@ use Middleware\MailChimp;
 $currentUser = (new Authentication)->getCurrentUser();
 
 Route::get('home/', function() use ($currentUser){
-
-    $members = (new Accounts)->filter("id < 1000");
+    
     
     Render::view('Site.index', [
         'currentUser' => $currentUser,
@@ -110,6 +110,12 @@ Route::post('league/create/', function(){
     $league->overview = $_POST['overview'];
     $league->owner = $currentUser->id;
     $league->uniqueid = uniqid();
+    $league->slug = $slug;
+
+    if ($_POST['tournament']) {
+        $league->tournament = $_POST['tournament'];
+    }
+
     $league->slug = $slug;
     $league->save();
 

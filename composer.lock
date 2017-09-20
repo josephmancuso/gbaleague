@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "399941b1ac89a946fdb10d93d82723be",
+    "content-hash": "abe076ef44f7be4f379b11d9bf58233a",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -714,16 +714,16 @@
         },
         {
             "name": "miraframework/models",
-            "version": "v2.2.2",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MiraFramework/models.git",
-                "reference": "1bd62fca1e140683d51882535f3d20e3a2c4feb1"
+                "reference": "64fa919043c20c0ce3ae545ead8d8745928f50d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MiraFramework/models/zipball/1bd62fca1e140683d51882535f3d20e3a2c4feb1",
-                "reference": "1bd62fca1e140683d51882535f3d20e3a2c4feb1",
+                "url": "https://api.github.com/repos/MiraFramework/models/zipball/64fa919043c20c0ce3ae545ead8d8745928f50d4",
+                "reference": "64fa919043c20c0ce3ae545ead8d8745928f50d4",
                 "shasum": ""
             },
             "type": "library",
@@ -738,7 +738,7 @@
                 }
             ],
             "description": "A Service Provider to add Model ORM support to Mira Framework",
-            "time": "2017-09-02T03:07:51+00:00"
+            "time": "2017-09-15T15:41:45+00:00"
         },
         {
             "name": "miraframework/project",
@@ -923,16 +923,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v5.2.0",
+            "version": "v5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "7b4a4c18a36c460291399c6a34920b7dabc11c57"
+                "reference": "8de523434a271db522b06187625c01e5e813b08b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/7b4a4c18a36c460291399c6a34920b7dabc11c57",
-                "reference": "7b4a4c18a36c460291399c6a34920b7dabc11c57",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/8de523434a271db522b06187625c01e5e813b08b",
+                "reference": "8de523434a271db522b06187625c01e5e813b08b",
                 "shasum": ""
             },
             "require": {
@@ -974,7 +974,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2017-08-29T12:47:40+00:00"
+            "time": "2017-09-14T19:39:00+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
