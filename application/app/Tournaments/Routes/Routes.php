@@ -3,8 +3,9 @@
 use Mira\Route;
 use Mira\Render\Render;
 
-use App\Tournaments\Models\TournamentPokemon;
 use App\Tournaments\Models\Tournaments;
+
+use App\League\Models\TournamentPokemon;
 use App\League\Models\Teams;
 use App\League\Models\Pokemon;
 use App\League\Models\Leagues;
@@ -20,7 +21,7 @@ Route::get('tournaments/team/{slug}', function($leagueSlug) use ($currentUser) {
 
     $league = (new Leagues)->find("slug = '$leagueSlug'");
 
-    $tournaments = (new Tournaments);
+    $tournaments = (new Leagues)->getTournaments();
 
     $teams = (new Teams)->filter("owner = '$currentUser->id' AND league IS NULL");
 
@@ -82,7 +83,7 @@ Route::post('tournaments/team/{slug}/', function($leagueSlug) use ($currentUser)
 
 Route::get('tournaments/', function() use ($currentUser) {
 
-    $tournaments = (new Tournaments);
+    $tournaments = (new Leagues);
 
     Render::view('Tournaments.discover', [
         'currentUser' => $currentUser,

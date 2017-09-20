@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tournaments\Models;
+namespace App\League\Models;
 
 use Mira\Models\Model;
 

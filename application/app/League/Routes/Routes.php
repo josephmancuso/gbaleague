@@ -12,7 +12,7 @@ use App\League\Models\Schedule;
 use App\League\Models\Trading;
 use App\League\Models\TradingOffers;
 use App\League\Models\Pull;
-use App\Tournaments\Models\TournamentPokemon;
+use App\League\Models\TournamentPokemon;
 
 use Middleware\Authentication;
 use Middleware\Slack;
@@ -71,7 +71,7 @@ Route::post('league/{leagueId}/team/remove/', function($leagueId){
 
     $team->league = 'NULL';
 
-    $team->save();
+    $team->save(); 
     
 
     if ($league->slackwebhook) {
@@ -88,13 +88,12 @@ Route::post('league/{leagueId}/team/remove/', function($leagueId){
     }
 
     $draftorder = ltrim($draftorder, ',');
-    echo $draftorder;
 
     $league = (new Leagues)->find($leagueId);
     $league->draftorder = $draftorder;
     $league->save();
 
-    // Render::redirect("/league/$league->slug/teams/");
+    Render::redirect("/league/$league->slug/teams/"); 
 });
 
 Route::get('league/{slug}/join/', function($slug) use ($currentUser) {

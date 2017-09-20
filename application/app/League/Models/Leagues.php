@@ -59,7 +59,6 @@ class Leagues extends Model
             $this->round++;
         }
         $this->save();
-        var_dump($this);
     }
 
     public function nextDraftUser() 
@@ -88,5 +87,15 @@ class Leagues extends Model
 
         $teams->points = $teams->points - $pokemon->points;
         $teams->save();
+    }
+
+    public function getTournaments(){
+        $tournaments = [];
+
+        foreach($this->filter("tournament = '1'") as $tournament) {
+            $tournaments[] = $this->find($tournament->id);
+        }
+
+        return $tournaments;
     }
 }

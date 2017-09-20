@@ -40,7 +40,7 @@
 			@foreach($leagueChunk as $league)
 				<div class="col-xs-12 col-sm-4">
 					<h1>{{ $league->name }}</h1>
-					<h3>Owner: {{ $leagues->find($league->id)->owner()->username }}</h3>
+					<h3>Owner: {{ $league->owner()->username }}</h3>
 					<h4>Draft Status: 
 						@if ($league->status == 0)
 							Not Started
@@ -74,7 +74,7 @@
 		@foreach($leagueChunk as $league)
             <div class="col-xs-12 col-sm-4">
                 <h1>{{ $league->name }}</h1>
-				<h3>Owner: {{ $leagues->find($league->id)->owner()->username }}</h3>
+				<h3>Owner: {{ $league->owner()->username }}</h3>
 				<h4>Draft Status: 
 					@if ($league->status == 0)
 						Not Started

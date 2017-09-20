@@ -6,6 +6,7 @@ use Mira\Mail\Mail;
 
 use App\League\Models\Leagues;
 use App\League\Models\Accounts;
+use App\League\Models\Teams;
 use App\Site\Models\Affiliate;
 
 use Cocur\Slugify\Slugify;
@@ -18,8 +19,7 @@ use Middleware\MailChimp;
 $currentUser = (new Authentication)->getCurrentUser();
 
 Route::get('home/', function() use ($currentUser){
-
-    $members = (new Accounts)->filter("id < 1000");
+    
     
     Render::view('Site.index', [
         'currentUser' => $currentUser,

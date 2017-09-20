@@ -28,7 +28,7 @@
             <hr>
 
                 @foreach($tournamentPokemon->filter("team = '$team->id'") as $pokemon)
-                    <h4>{{++$i}}. {{ $pokemonModel->find($pokemon->id)->pokemonName }}<h4>
+                    <h4>{{++$i}}. {{ $pokemon->pokemon()->pokemonName }}<h4>
                 @endforeach
 
             @endif
