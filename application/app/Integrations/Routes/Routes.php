@@ -7,6 +7,7 @@ use App\League\Models\Pull;
 use App\League\Models\Leagues;
 use App\Site\Models\Affiliate;
 use Middleware\Slack;
+use Middleware\Discord;
 use Middleware\MailChimp;
 
 use Middleware\Authentication;
@@ -22,6 +23,29 @@ Route::post('integrations/slack/add/{leagueId}/', function($leagueId){
     Render::redirect("/league/$league->slug/chat/");
 });
 
+
+Route::get('integration/oauth/discord/send/', function(){
+    
+    $league = (new Leagues)->find(6);
+
+    
+});
+
+Route::get('integration/oauth/discord/', function(){
+    $integration = Discord::acceptIntegration();
+
+    $league = (new Leagues)->find($_GET['state']);
+    $league->discordid = $integration->webhook->id;
+    $league->discordtoken = $integration->webhook->token;
+    $league->discordchannel = $integration->webhook->channel_id;
+    $league->save();
+
+    (new Discord($league))->send("Integration successful! You will now see information like requests, trades, schedules, drafts and skips in this channel.");
+
+    Render::redirect("/league/$league->slug/chat/");
+});
+
+
 Route::get('integration/oauth/slack/', function(){
     $integration = Slack::acceptIntegration();
 
@@ -34,6 +58,7 @@ Route::get('integration/oauth/slack/', function(){
 
     Render::redirect("/league/$league->slug/chat/");
 });
+
 // Routes Here
 Route::post('integrations/slack/', function(){
     $slackStuff = json_decode(file_get_contents("php://input"), true);
