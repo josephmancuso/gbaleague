@@ -27,6 +27,7 @@
 
 @if ($isHost && $currentUser->member)
     <div class="row text-center">
+    <div class="col-xs-12 col-sm-6">
     <h2> Integrate With Slack </h2>
 
     @if ($league->slackwebhook)
@@ -36,7 +37,22 @@
     @endif
 
     <a href="https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=140404785458.236564549872&state={{$league->id}}"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
-       
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
+    <h2> Integrate With Discord </h2>
+
+    @if ($league->discordid)
+        <div class="alert alert-success text-center">
+            This league is integrated with Discord. Any major events of this league will be broadcasted in your Discord guild.
+        </div>
+    @endif
+
+    <a href="https://discordapp.com/api/oauth2/authorize?response_type=code&client_id=362339600925982721&scope=webhook.incoming&state={{$league->id}}">
+        <img src="{{ loadStatic('League') }}/images/discord.png" style="max-height: 75px">
+    </a>
+    
+    </div>
         
     </div>
 @endif
