@@ -6,7 +6,10 @@ use Mira\Models\Model;
 
 use App\League\Models\Teams;
 use App\League\Models\DraftedPokemon;
+
 use Middleware\Authentication;
+use Middleware\Slack;
+use Middleware\Discord;
 
 class Leagues extends Model
 {
@@ -97,5 +100,20 @@ class Leagues extends Model
         }
 
         return $tournaments;
+    }
+
+    public function broadcast($message)
+    {
+        if ($this->slackwebhook) {
+            $slack = new Slack($this);
+
+            $slack->client()->send($message);
+        }
+
+        if ($this->discordid) {
+            $discord = new Discord($this);
+
+            $discord->send($message);
+        }
     }
 }
