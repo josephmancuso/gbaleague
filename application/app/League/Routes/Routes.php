@@ -16,6 +16,7 @@ use App\League\Models\TournamentPokemon;
 
 use Middleware\Authentication;
 use Middleware\Slack;
+use Middleware\Discord;
 
 // Routes Here
 
@@ -78,6 +79,12 @@ Route::post('league/{leagueId}/team/remove/', function($leagueId){
         $slack = new Slack($league);
 
         $slack->client()->send($team->name. " has been removed from the league");
+    }
+    
+    if ($league->discordid) {
+        $discord = new Discord($league);
+
+        $discord->send($team->name. " has been removed from the league");
     }
 
     $draftorder = '';
@@ -149,6 +156,17 @@ Route::post('league/{leagueId}/status/', function($leagueId) use ($currentUser) 
         
     }
 
+    if ($league->discordid) {
+        $discord = new Discord($league);
+
+        if ($league->status == 2) {
+            $discord->send('Drafting has closed!');
+        } else {
+            $discord->send('Drafting has opened!');
+        }
+    }
+
+
     Render::redirect("/league/$league->slug/draft/");
 });
 
@@ -210,10 +228,22 @@ Route::post('league/{leagueId}/skip/', function($leagueId){
         $slack->client()->send($league->current()->username. " has just been skipped!");
     }
 
+    if ($league->discordid) {
+        $discord = new Discord($league);
+
+        $discord->send($league->current()->username. " has just been skipped!");
+    }
+
     $league->nextDrafter();
 
     if ($league->slackwebhook) {
          $slack->client()->send($league->current()->username. " is now drafting");
+    }
+
+    if ($league->discordid) {
+        $discord = new Discord($league);
+
+        $discord->send($league->current()->username. " is now drafting");
     }
 
     Render::redirect("/league/$league->slug/draft/");
@@ -273,13 +303,23 @@ Route::post('league/draft/pokemon/{pokemonId}/{leagueId}/', function($pokemonId,
             $slack->client()->send($league->current()->username. " has just drafted Tier ".$pokemon->tier.' '.$pokemon->pokemonName. " for ".$pokemon->points." points");
         }
 
+        if ($league->discordid) {
+            $discord = new Discord($league);
+
+            $discord->send($league->current()->username. " has just drafted Tier ".$pokemon->tier.' '.$pokemon->pokemonName. " for ".$pokemon->points." points");
+        }
+        
         $league->nextDrafter();
 
-        
         if ($league->slackwebhook) {
             $slack->client()->send('Now Drafting: '.$league->current()->username);
         }
-        
+
+        if ($league->discordid) {
+            $discord = new Discord($league);
+
+            $discord->send('Now Drafting: '.$league->current()->username);
+        }
         
     }
     
@@ -326,6 +366,12 @@ Route::post('league/{slug}/requests/accept/{requestId}/{teamId}/', function($slu
         $slack->client()->send("$teams->name owned by ". $teams->owner()->username." has just joined the league");
     }
 
+    if ($league->discordid) {
+        $discord = new Discord($league);
+
+        $discord->send("$teams->name owned by ". $teams->owner()->username." has just joined the league");
+    }
+    
     $draftorder = '';
     $allTeams = (new Teams)->filter(" league = '$league->id' ");
 
@@ -372,6 +418,13 @@ Route::post('league/{slug}/join/', function($slug){
         $slack->client()->send($requests->owner()->username." has requested to join with the ". $requests->team()->name);
     }
 
+    if ($league->discordid) {
+        $discord = new Discord($league);
+
+        $discord->send($requests->owner()->username." has requested to join with the ". $requests->team()->name);
+    }
+    
+
     Render::redirect("/league/$slug/join/");
 });
 
@@ -392,7 +445,6 @@ Route::get('league/{slug}/schedule/', function($slug) use ($currentUser) {
         'teamsModel' => new Teams,
         'schedules' => (new Schedule)->filter("league = '$league->id' ORDER BY date ASC"),
     ]);
-    die();
 });
 
 Route::post('league/{slug}/schedule/delete/{id}/', function($slug, $id){
@@ -426,8 +478,13 @@ Route::post('league/{slug}/schedule/', function($slug){
 
         $slack->client()->send("A match has been created for $team1->name and $team2->name on ".date('l F jS Y', strtotime($_POST['date'])));
     }
-    
 
+    if ($league->discordid) {
+        $discord = new Discord($league);
+
+        $discord->send("A match has been created for $team1->name and $team2->name on ".date('l F jS Y', strtotime($_POST['date'])));
+    }
+    
     Render::redirect("/league/$slug/schedule/");
 });
 
@@ -522,7 +579,15 @@ Route::post('league/{leagueId}/trade/', function($leagueId){
 
         $slack->client()->send("$pokemon->pokemonName has been put up for trade by the $usersTeam->name");
     }
-    
+
+    if ($league->discordid) {
+        $discord = new Discord($league);
+
+        $pokemon = (new Pokemon)->find($_POST['pokemon']);
+
+        $discord->send("$pokemon->pokemonName has been put up for trade by the $usersTeam->name");
+    }
+
     Render::redirect("/league/$league->slug/trade/");
 });
 
@@ -570,21 +635,4 @@ Route::get('league/{slug}/', function($slug) use ($currentUser) {
         'isHost' => $isHost,
         'currentUser' => (new Authentication)->getCurrentUser()
     ]);
-});
-
-Route::get('testing/', function($slug){
-    
-    $pull = (new Pull)->all();
-
-    foreach ($pull as $pulledPokemon){
-        $pulledPokemon->name;
-
-        $newPokemon = (new Pokemon)->find("pokemonName = '$pulledPokemon->name'");
-
-        $newPokemon
-        ->points = $pulledPokemon->type;
-
-        $newPokemon->save();
-    }
-    
 });
