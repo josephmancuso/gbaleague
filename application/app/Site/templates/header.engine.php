@@ -78,8 +78,11 @@
 
 							@unless ($currentUser->member)
 								<li><a href="/premium/" style="color: #f1c40f">Premium</a></li>
-								@if (!$currentUser->isOnTrial())
-									<li><a href="/trial" style="color: #f1c40f">7 Day FREE Trial</a></li>
+
+								@if ($currentUser)
+									@if (!$currentUser->isOnTrial())
+										<li><a href="/trial" style="color: #f1c40f">7 Day FREE Trial</a></li>
+									@endif
 								@endif
 							@endunless
 							<li class="dropdown">
