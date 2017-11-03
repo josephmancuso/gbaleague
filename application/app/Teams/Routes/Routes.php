@@ -12,6 +12,7 @@ use Middleware\Upload;
 // Routes Here
 
 $currentUser = (new Middleware\Authentication)->getCurrentUser();
+(new Middleware\Authentication)->checkTrialStatus();
 
 Route::get('team/create/', function() use ($currentUser) {
 

@@ -16,6 +16,7 @@ use Middleware\Authentication;
 // Routes Here
 
 $currentUser = (new Authentication)->getCurrentUser();
+(new Authentication)->checkTrialStatus();
 
 Route::get('tournaments/team/{slug}', function($leagueSlug) use ($currentUser) {
 

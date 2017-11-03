@@ -8,7 +8,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="hero-content fix">
-					<h1>GBALeague <span class="gold">Premium</span></h1>
+					<h1>7 Day GBALeague <span class="gold">Premium</span></h1>
 					<h3>Become a premium member today and expand your legacy!</h3>
 					<a href="#feature" class="button large color-hover">Premium</a>
 				</div>
@@ -20,9 +20,6 @@
 ============================================ -->
 <div id="demos" class="padding-90 text-center bg-off-white fix">
 	<div class="container">
-	@if ($_GET['message'])
-		<div class="alert alert-danger text-center">{{ $_GET['message'] }}</div>
-	@endif
 		<div class="row">
 			<div class="section-title text-center col-xs-12">
 				<h1>Become a Premium Member Today</h1>
@@ -43,35 +40,39 @@
 				<h1>Premium Feature List</h1>
 			</div>
 			<div class="col-xs-12 col-sm-4">
-			<span class="fa fa-check"> </span>
+			    <span class="fa fa-check"> </span>
 				Unlimited league coaches
 			</div>
 			
 			<div class="col-xs-12 col-sm-4">
-			<span class="fa fa-check"> </span>
-				League and Slack Integrations
+			    <span class="fa fa-check"> </span>
+				Discord and Slack Integrations
 			</div>
 
 			<div class="col-xs-12 col-sm-4">
-			<span class="fa fa-check"> </span>
+			    <span class="fa fa-check"> </span>
 				Unlimited Teams
 			</div>
 
 			<div class="col-xs-12 col-sm-4">
-			<span class="fa fa-check"> </span>
+			    <span class="fa fa-check"> </span>
 				Join Unlimited Leagues
 			</div>
 			
 			<div class="col-xs-12 col-sm-4">
-			<span class="fa fa-check"> </span>
+			    <span class="fa fa-check"> </span>
 				Gain Access to Official Leagues
 			</div>
 
 			<div class="col-xs-12 col-sm-4">
-			<span class="fa fa-check"> </span>
+			    <span class="fa fa-check"> </span>
 				Unlock Trading
 			</div>
 
+			<div class="col-xs-12 col-sm-4">
+			    <span class="fa fa-check"> </span>
+				Unlock Tournaments
+			</div>
 		</div>
 	</div>
 </div>
@@ -81,25 +82,13 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-6 col-xs-12">
 				<div class="support-team">
-					<h2>Join Now For Only $4.99 /mo</h2>
+					<h2 style="text-decoration: line-through">Join Now For Only $4.99 /mo</h2>
+					<h2>FREE 7 Day Trial</h2>
+                    <p>No Card Required</p>
 					<p>Over 6,000 people have joined the site!</p>
-					@if ($currentUser->username)
-					<form action="/integrations/stripe/plan/" method="POST">
-						@if ($currentUser->ref)
-						<div class="form-group">
-							<label for="ref">Code</label>
-							<input id="ref" type="text" value="{{$currentUser->ref}}" name="code" readonly="readonly">
-						</div>
-						@endif
-                        <script
-                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                            data-key="{{ $stripe_public_key }}"
-                            data-amount="499"
-                            data-name="GBALeague.com"
-                            data-description="Become a Premium Member"
-                            data-image="{{ loadStatic('Site') }}/images/gbalogo.jpg"
-                            data-locale="auto">
-                        </script>
+					@if ($currentUser->id)
+					<form action="/trial" method="POST">
+						<button class="btn btn-success" type="submit">FREE Activation</button>
                     </form>
 					@else
 					<a href="/login/">

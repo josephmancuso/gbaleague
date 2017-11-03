@@ -21,6 +21,7 @@ use Middleware\Discord;
 // Routes Here
 
 $currentUser = (new Authentication)->getCurrentUser();
+(new Authentication)->checkTrialStatus();
 
 Route::get('discover/', function() use ($currentUser){
 

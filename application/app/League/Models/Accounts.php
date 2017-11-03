@@ -36,4 +36,22 @@ class Accounts extends Model
 
         return $returnLeagues;
     }
+
+    public function isOnTrial()
+    {
+        if ($this->trial_ends < date('Y-m-d') || $this->customer) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function trialEnded()
+    {
+        if ($this->trial_ends < date('Y-m-d') && !$this->customer) {
+            return true;
+        }
+
+        return false;
+    }
 }
