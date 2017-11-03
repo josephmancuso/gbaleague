@@ -13,6 +13,17 @@ class Authentication
             if ($authcode) {
                   return (new Accounts)->find("authcode = '$authcode'");
             }
+
+            return false;
+      }
+
+      public function checkTrialStatus()
+      {
+            $currentUser = $this->getCurrentUser();
+            if ($this->getCurrentUser() && $currentUser->trialEnded()) {
+                  $currentUser->member = 0;
+                  $currentUser->save();
+            }
       }
 
       public function login($username, $password)

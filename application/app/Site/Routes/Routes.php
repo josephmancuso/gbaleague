@@ -18,8 +18,9 @@ use Middleware\MailChimp;
 
 $currentUser = (new Authentication)->getCurrentUser();
 
+(new Authentication)->checkTrialStatus();
+
 Route::get('home/', function() use ($currentUser){
-    
     
     Render::view('Site.index', [
         'currentUser' => $currentUser,
@@ -142,6 +143,30 @@ Route::post('login/', function(){
     }
 
     Render::redirect('/login/?error=Incorrect username or password');
+});
+
+Route::get('trial/', function() use ($currentUser){
+
+    if ($currentUser->isOnTrial() || $currentUser->member || $currentUser->trial_ends) {
+        return Render::redirect('/premium/?message=You have already activated the trial');
+    }
+
+    Render::view('Site.premium-trial', [
+        'currentUser' => $currentUser
+    ]);
+});
+
+Route::post('trial/', function() use($currentUser){
+
+    if ($currentUser->isOnTrial() || $currentUser->member || $currentUser->trial_ends) {
+        return Render::redirect('/premium/?message=You have already activated the trial');
+    }
+
+    $currentUser->member = 1;
+    $currentUser->trial_ends = date('Y-m-d', strtotime('+7 day', time()));
+    $currentUser->save();
+
+    Render::redirect('/discover/?success=You Are Now A Premium Member For 7 Days! Congrats!');
 });
 
 Route::get('premium/{affiliate}', function($affiliate) use ($currentUser) {
