@@ -49,7 +49,7 @@
 			
 			<div class="col-xs-12 col-sm-4">
 			<span class="fa fa-check"> </span>
-				League and Slack Integrations
+				Discord and Slack Integrations
 			</div>
 
 			<div class="col-xs-12 col-sm-4">
